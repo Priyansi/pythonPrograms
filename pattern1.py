@@ -11,15 +11,19 @@ asterisk = '*'
 
 
 def spaces(x: int) -> str:
-    return ''.rjust(x, space)
+    return x*space
 
 
 def asterisks(x: int) -> str:
-    return ''.rjust(x, asterisk)
+    return x*asterisk
+
+
+def checkEndLine(x: int) -> str:
+    return '\n' if x else ''
 
 
 def pattern(num: int) -> str:
-    return ''.join(spaces(num-(i-1))+asterisks((2*i)+1)+'\n' for i in range(num))
+    return ''.join(spaces(num-i-1)+asterisks((2*i)+1)+checkEndLine(num-i-1) for i in range(num))
 
 
 print(pattern(int(sys.argv[1])))
