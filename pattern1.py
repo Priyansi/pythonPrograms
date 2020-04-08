@@ -1,4 +1,4 @@
-#  Generalized function for this with 3 orientations-
+#  Generalized function for this with 4 orientations-
 #         #
 #        #-#
 #       #---#
@@ -14,7 +14,7 @@ SP = HASH
 RP = HYPHEN+HYPHEN
 EP = BACKSPACE+HASH
 
-#ORIENTATIONS = 'RIGHT', 'PYRAMID', 'INVERSE'
+#ORIENTATIONS = 'RIGHT', 'PYRAMID', 'INVERSE', 'DIAMOND'
 
 
 def pattern(size: int, orientation='PYRAMID', width=SCREEN_WIDTH):
@@ -22,6 +22,9 @@ def pattern(size: int, orientation='PYRAMID', width=SCREEN_WIDTH):
         return LF.join([line(line_no, width) for line_no in range(size)])
     elif orientation == 'RIGHT':
         return LF.join([line(line_no, 0) for line_no in range(size)])
+    elif orientation == 'DIAMOND':
+        return LF.join([line(line_no, width) for line_no in range(size)])+LF+LF.join([line(line_no, width) for line_no in range(size-1)][::-1])
+
     else:  # orientation =="INVERSE"
         return LF.join([line(line_no, width) for line_no in range(size)][::-1])
 
