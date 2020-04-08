@@ -1,29 +1,49 @@
-#  Generalized function for this -
-#    *
-#   ***
-#  *****
-# *******
+#  Generalized function for this with 3 orientations-
+#         #
+#        #-#
+#       #---#
+#      #-----#
 
-import sys
+from sys import argv
 
-space = ' '
-asterisk = '*'
+HASH, SPACE, HYPHEN = "#", ' ', '-'
+LF, BACKSPACE = "\n", '\b'
+SCREEN_WIDTH = 60
 
+SP = HASH
+RP = HYPHEN+HYPHEN
+EP = BACKSPACE+HASH
 
-def spaces(x: int) -> str:
-    return x*space
-
-
-def asterisks(x: int) -> str:
-    return x*asterisk
-
-
-def checkEndLine(x: int) -> str:
-    return '\n' if x else ''
+#ORIENTATIONS = 'RIGHT', 'PYRAMID', 'INVERSE'
 
 
-def pattern(num: int) -> str:
-    return ''.join(spaces(num-i-1)+asterisks((2*i)+1)+checkEndLine(num-i-1) for i in range(num))
+def pattern(size: int, orientation='PYRAMID', width=SCREEN_WIDTH):
+    if orientation == 'PYRAMID':
+        return LF.join([line(line_no, width) for line_no in range(size)])
+    elif orientation == 'RIGHT':
+        return LF.join([line(line_no, 0) for line_no in range(size)])
+    else:  # orientation =="INVERSE"
+        return LF.join([line(line_no, width) for line_no in range(size)][::-1])
 
 
-print(pattern(int(sys.argv[1])))
+def line(n: int, width: int) -> str:
+    return leading_space(n, width)+start_pattern(n)+repeat_pattern(n)+end_pattern(n)
+
+
+def leading_space(n: int, w: int) -> str:
+    return (w // 2 - n) * SPACE
+
+
+def start_pattern(n: int):
+    return SP
+
+
+def repeat_pattern(n: int):
+    return n*RP
+
+
+def end_pattern(n: int):
+    return EP
+
+
+print(pattern(int(argv[1]), argv[2]))
