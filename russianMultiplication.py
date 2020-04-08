@@ -18,7 +18,7 @@ def russianMultiplication(a, b):
         a = a//2
         b = 2*b
 
-    return outputString+equalTos+'\n'+''.rjust(indent, ' ')+str(total)+'\n'+equalTos
+    return outputString+equalTos+'\n'+(' '*indent)+str(total)+'\n'+equalTos
 
 
 print(russianMultiplication(int(sys.argv[1]), int(sys.argv[2])))
