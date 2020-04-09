@@ -1,7 +1,7 @@
 def isPrime(n: int) -> bool:
     if n in [2, 3, 5, 7]:
         return True
-    elif n % 2 == 0:
+    elif n % 2 == 0 or n == 1:
         return False
     else:
         r = 3
@@ -17,8 +17,8 @@ def circularStrings(num: int) -> list:
     return [int(str(num)[i:]+str(num)[:i]) for i in range(length)]
 
 
-def circularPrime(num: int) -> bool:
-    return not False in [isPrime(i) for i in circularStrings(num)]
+def circularPrime(num: int):
+    return not False in[isPrime(i) for i in circularStrings(num)]
 
 
-print(circularPrime(41))
+print(circularPrime(1))
