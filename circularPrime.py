@@ -12,13 +12,22 @@ def isPrime(n: int) -> bool:
         return True
 
 
-def circularStrings(num: int) -> list:
+def circularStrings(num: int) -> str:
     length = len(str(num))
-    return [int(str(num)[i:]+str(num)[:i]) for i in range(length)]
+    for i in range(1, length):
+        yield str(num)[i:]+str(num)[:i]
 
 
-def circularPrime(num: int):
-    return not False in[isPrime(i) for i in circularStrings(num)]
+def hasDivisibleLastDigit(n: int) -> bool:
+    return any([d in '024568' for d in str(n)])
 
 
-print(circularPrime(1))
+def circularPrime(n: int):
+    if n < 10:
+        return isPrime(n)
+    if hasDivisibleLastDigit(n):
+        return False
+    return all(isPrime(i) for i in circularStrings(n))
+
+
+print(circularPrime(12))
