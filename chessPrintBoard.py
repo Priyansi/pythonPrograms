@@ -1,4 +1,4 @@
-PIECES = {'K': '♔', 'Q': 1, 'R': 2, 'B': 3, 'N': 4, 'P': 5,
+PIECES = {'K': 0, 'Q': 1, 'R': 2, 'B': 3, 'N': 4, 'P': 5,
           'k': 6, 'q': 7, 'r': 8, 'b': 9, 'n': 10, 'p': 11}
 
 UNICODE_CHESS = 9812
@@ -11,7 +11,7 @@ def formBoard(positions):
     for row in positions:
         line = ''
         for column in row:
-            line += int(column)*BLANK_BOX if column.isdigit() else column
+            line += int(column)*BLANK_BOX if column.isdigit() else PIECES[column]
         board += line+NEWLINE
     return board
 
