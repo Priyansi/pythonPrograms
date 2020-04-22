@@ -9,7 +9,7 @@ def nextCharacters(string, c):
 def pick10(s: str, n: int) -> str:
     count = 0
     word = ''
-    seq = [0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55]
+    seq = [0, 1, 3, 6, 10, 15, 21, 28, 36, 45]
     while count < 10:
         word += nextCharacters(s[n:]+s[:n], seq[count])
         count += 1
