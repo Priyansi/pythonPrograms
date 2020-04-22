@@ -3,7 +3,7 @@ PIECES = {'K': '♔', 'Q': 1, 'R': 2, 'B': 3, 'N': 4, 'P': 5,
 
 UNICODE_CHESS = 9812
 NEWLINE = '\n'
-BLANK_BOX = '_'
+BLANK_BOX = '-'
 
 
 def formBoard(positions):
