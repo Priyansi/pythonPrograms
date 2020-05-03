@@ -54,11 +54,11 @@ def isMoveValid(piece, pos1, pos2):
     if not isPosInsideBoard(pos1) or not isPosInsideBoard(pos2):
         return False
     if piece == 'p':
-        return pawnWhite(pos1, pos2)
-    if piece == 'P':
         return pawnBlack(pos1, pos2)
+    if piece == 'P':
+        return pawnWhite(pos1, pos2)
     return pieceFunctions[piece.lower()](pos1, pos2)
 
 
 if __name__ == "__main__":
-    print(isMoveValid('P', 'd7', 'd5'))
+    print(isMoveValid('P', 'd2', 'd4'))
