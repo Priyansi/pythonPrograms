@@ -1,6 +1,7 @@
 import re
 import chessPieceCanCapture
 import chessCanMoveToPos
+import chessEnPassant
 from collections import OrderedDict
 NEWLINE = '\n'
 END_OF_RANK = 'h'
@@ -24,6 +25,7 @@ def setup():
         piece = board_view[square]
         if piece != EMPTY_SQUARE:
             piece_view[piece].append(square)
+    piece_view['EN_PASSANT'] = ''
     return board_view, piece_view
 
 
@@ -62,6 +64,9 @@ def pre_process_moves(moves):
 
 def remove_ambiguity(board_view, piece_view, piece, square_to_go, current_file_or_rank):
     for square_at in piece_view[piece]:
+        if current_file_or_rank in square_at and chessEnPassant.is_en_passant(piece, square_at, square_to_go):
+            piece_view['EN_PASSANT'] = square_to_go
+            return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
         if current_file_or_rank in square_at and chessCanMoveToPos.isMoveValid(piece, square_at, square_to_go):
             return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
 
@@ -76,6 +81,13 @@ def update_board_piece_view(board_view, piece_view, piece, square_at, square_to_
 
 def remove_capture_ambiguity(board_view, piece_view, piece, square_to_go, current_file_or_rank):
     for square_at in piece_view[piece]:
+        if piece_view['EN_PASSANT'] != '':
+            if current_file_or_rank in square_at and chessEnPassant.can_capture_en_passant(piece, piece_view['EN_PASSANT'], square_at, square_to_go):
+                piece_view = remove_captured_piece(
+                    board_view, piece_view, piece_view['EN_PASSANT'])
+                board_view[piece_view['EN_PASSANT']] = EMPTY_SQUARE
+                piece_view['EN_PASSANT'] = ''
+                return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
         if current_file_or_rank in square_at and chessPieceCanCapture.canPieceCapture(piece, square_at, square_to_go):
             piece_view = remove_captured_piece(
                 board_view, piece_view, square_to_go)
@@ -93,6 +105,13 @@ def capture(board_view, piece_view, move):
     if move != piece+square_to_go:
         return remove_capture_ambiguity(board_view, piece_view, piece, square_to_go, move.replace(piece, '').replace(square_to_go, ''))
     for square_at in piece_view[piece]:
+        if piece_view['EN_PASSANT'] != '':
+            if chessEnPassant.can_capture_en_passant(piece, piece_view['EN_PASSANT'], square_at, square_to_go):
+                piece_view = remove_captured_piece(
+                    board_view, piece_view, piece_view['EN_PASSANT'])
+                board_view[piece_view['EN_PASSANT']] = EMPTY_SQUARE
+                piece_view['EN_PASSANT'] = ''
+                return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
         if chessPieceCanCapture.canPieceCapture(piece, square_at, square_to_go):
             piece_view = remove_captured_piece(
                 board_view, piece_view, square_to_go)
@@ -104,6 +123,9 @@ def movement(board_view, piece_view, move):
     if move != piece+square_to_go:
         return remove_ambiguity(board_view, piece_view, piece, square_to_go, move.replace(piece, '').replace(square_to_go, ''))
     for square_at in piece_view[piece]:
+        if chessEnPassant.is_en_passant(piece, square_at, square_to_go):
+            piece_view['EN_PASSANT'] = square_to_go
+            return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
         if chessCanMoveToPos.isMoveValid(piece, square_at, square_to_go):
             return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
 
@@ -158,11 +180,10 @@ def view(board_view, view_text):
 
 
 def game(moves):
-    en_passant = ''
     board_view, piece_view = setup()
     all_moves = [view(board_view, WHITE_VIEW_TEXT)+NEWLINE +
                  view(board_view, BLACK_VIEW_TEXT)]
-    for white_move, black_move in moves[:2]:
+    for white_move, black_move in moves:
         currentBoard = 'CHECK'+NEWLINE if '+' in white_move else ''
         board_view, piece_view = status_after_each_turn(
             board_view, piece_view, white_move.strip('+'))
