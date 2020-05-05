@@ -1,22 +1,15 @@
 [Event "USA-02.Congress"]
-[Site "Cleveland"]
-[Date "1871.??.??"]
-[Round "1"]
-[White "Elder, Frederic"]
-[Black "Mackenzie, George Henry"]
-[Result "1/2-1/2"]
-[WhiteElo ""]
-[BlackElo ""]
-[ECO "A83"]
+[Event "Hastings 1974/75"]
+[Site "Hastings ENG"]
+[Date "1975.01.09"]
+[EventDate "?"]
+[Round "11"]
+[Result "0-1"]
+[White "Ulf Andersson"]
+[Black "Michael John Basman"]
+[ECO "E18"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "106"]
 
-1.d4 d6 2.d5 e5 3.dxe6 Nf6 4.Bg5 c6 5.Bxf6 exf6 6.Nxe4 d5 7.Ng3 Bd6 8.Bd3 Be6
-9.N1e2 Nd7 10.Nf5 Bxf5 11.Bxf5 g6 12.Bd3 Qc7 13.g3 f5 14.Qd2 O-O-O 15.O-O-O Kb8
-16.Kb1 Nb6 17.c3 Rhe8 18.Rhe1 Nd7 19.Ng1 Nf6 20.f3 f4 21.g4 g5 22.Nh3 h6
-23.Bg6 Rg8 24.Bf5 Rde8 25.Nf2 c5 26.h3 c4 27.Nh1 b5 28.Nf2 a5 29.b3 Ka7 30.Rxe8 Rxe8
-31.Re1 b4 32.Rxe8 Nxe8 33.Nd1 Qb6 34.Nb2 bxc3 35.Qxc3 Bb4 36.Qc2 c3 37.Nd1 Qxd4
-38.a3 Bxa3 39.Nxc3 Qc5 40.Qd3 Nc7 41.Bd7 Qe3 42.Qc2 Bd6 43.Na4 Na6 44.Bb5 Nb4
-45.Qc3 Qg1+ 46.Kb2 Qf2+ 47.Kb1 d4 48.Qc8 Qe1+ 49.Kb2 Qe5 50.Qd7+ Bc7 51.Bc4 Kb8
-52.Qb5+ Qxb5 53.Bxb5 Kb7 54.Kc1 Nd5 55.Kd2 Nb4 56.Nb2 Kb6 57.Bf1 Kc6 58.Bc4 Kd6
-59.Nd3 Na2 60.Nc1 Nb4 61.Nd3 Nc6 62.Ke2 Bb6 63.Kd1 Bc5 64.Kd2 Bb4+ 65.Kc2 Ne7
-66.Nf2 Ng6 67.Be2 Nh4 68.Kd3 Kd5 69.Kc2 Ng2 70.Bc4+ Ke5 71.Kd3 Ne3 72.Ba6 Nf1
-73.Ke2 Ng3+ 74.Kd3 Be1 75.Nd1 Nh1  1/2-1/2
+1.Nf3 b6 2.g3 Bb7 3.Bg2 e6 4.O-O d5 5.c4 Nf6 6.d4 Be7 7.Nc3 O-O 8.Ne5 h6 9.Bf4 a6 10.Rc1 Ra7 11.cxd5 exd5 12.Qb3 Ba8 13.Rfd1 Kh7 14.h3 Kg8 15.Kh2 Kh7 16.g4 Kg8 17.Bg3 Bb7 18.e3 Ba8 19.a3 Bb7 20.f4 Ba8 21.Rd2 Qd6 22.f5 Qd8 23.Bf4 Bb7 24.Rg1 c6 25.Bf3 Nh7 26.Rc1 Bd6 27.Na4 Bc7 28.Kg3 Nf6 29.h4 Nfd7 30.Nxd7 Nxd7 31.Re2 Re8 32.Kh3 Bxf4 33.exf4 Rxe2 34.Bxe2 Qe7 35.Bf3 b5 36.Nc5 Bc8 37.Qd3 h5 38.gxh5 Qf6 39.Kg3 Nxc5 40.Rxc5 Bxf5 41.Qc3 Bd7 42.Qd3 Ra8 43.Rc1 Re8 44.Qc3 c5 45.Qxc5 Qf5 46.Qxd5 Qh3+ 47.Kf2 Qh2+ 48.Bg2 Qxf4+ 49.Bf3 Bg4 50.Rc3 Qh2+ 51.Bg2 Qxh4+ 52.Kg1 Re1+ 53.Bf1 Bh3 0-1
