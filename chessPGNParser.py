@@ -28,11 +28,28 @@ def setup():
     return board_view, piece_view
 
 
+def is_rook_jumping_pieces(board_view, square_at, square_to_go):
+    rank_difference = int(square_at[1])-int(square_to_go[1])
+    if rank_difference == 0:
+        files_arr = [chr(i)
+                     for i in range(ord(square_at[0]), ord(square_to_go[0]))]
+        for i in files_arr[1:]:
+            if board_view[i+square_at[1]] != '_':
+                return True
+    else:
+        step = 1 if rank_difference > 0 else -1
+        for i in range(int(square_at[1])+1, int(square_to_go[1]), step):
+            if board_view[square_at[0]+str(i)] != '_':
+                return True
+    return False
+
+
 def remove_movement_ambiguity(board_view, piece_view, piece, square_to_go, current_file_or_rank):
     for square_at in piece_view[piece]:
-        if current_file_or_rank in square_at and chessEnPassant.is_en_passant(piece, square_at, square_to_go):
-            piece_view[EN_PASSANT] = square_to_go
-            return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
+        if piece.lower() == 'p':
+            if current_file_or_rank in square_at and chessEnPassant.is_en_passant(piece, square_at, square_to_go):
+                piece_view[EN_PASSANT] = square_to_go
+                return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
         if current_file_or_rank in square_at and chessCanMoveToPos.isMoveValid(piece, square_at, square_to_go):
             return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
 
@@ -47,7 +64,7 @@ def update_board_piece_view(board_view, piece_view, piece, square_at, square_to_
 
 def remove_capture_ambiguity(board_view, piece_view, piece, square_to_go, current_file_or_rank):
     for square_at in piece_view[piece]:
-        if piece_view[EN_PASSANT] != '':
+        if piece_view[EN_PASSANT] != '' and piece.lower() == 'p':
             if current_file_or_rank in square_at and chessEnPassant.can_capture_en_passant(piece, piece_view[EN_PASSANT], square_at, square_to_go):
                 piece_view = remove_captured_piece(
                     board_view, piece_view, piece_view[EN_PASSANT])
@@ -71,7 +88,7 @@ def capture(board_view, piece_view, move):
     if move != piece+square_to_go:
         return remove_capture_ambiguity(board_view, piece_view, piece, square_to_go, move.replace(piece, '').replace(square_to_go, ''))
     for square_at in piece_view[piece]:
-        if piece_view[EN_PASSANT] != '':
+        if piece_view[EN_PASSANT] != '' and piece.lower() == 'p':
             if chessEnPassant.can_capture_en_passant(piece, piece_view[EN_PASSANT], square_at, square_to_go):
                 piece_view = remove_captured_piece(
                     board_view, piece_view, piece_view[EN_PASSANT])
@@ -79,6 +96,8 @@ def capture(board_view, piece_view, move):
                 piece_view[EN_PASSANT] = ''
                 return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
         if chessPieceCanCapture.canPieceCapture(piece, square_at, square_to_go):
+            if piece.lower() == 'r' and is_rook_jumping_pieces(board_view, square_at, square_to_go):
+                continue
             piece_view = remove_captured_piece(
                 board_view, piece_view, square_to_go)
             return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
@@ -89,10 +108,13 @@ def movement(board_view, piece_view, move):
     if move != piece+square_to_go:
         return remove_movement_ambiguity(board_view, piece_view, piece, square_to_go, move.replace(piece, '').replace(square_to_go, ''))
     for square_at in piece_view[piece]:
-        if chessEnPassant.is_en_passant(piece, square_at, square_to_go):
-            piece_view[EN_PASSANT] = square_to_go
-            return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
+        if piece.lower() == 'p':
+            if chessEnPassant.is_en_passant(piece, square_at, square_to_go):
+                piece_view[EN_PASSANT] = square_to_go
+                return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
         if chessCanMoveToPos.isMoveValid(piece, square_at, square_to_go):
+            if piece.lower() == 'r' and is_rook_jumping_pieces(board_view, square_at, square_to_go):
+                continue
             return update_board_piece_view(board_view, piece_view, piece, square_at, square_to_go)
 
 
