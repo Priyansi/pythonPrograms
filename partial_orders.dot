@@ -1,0 +1,8 @@
+digraph partial_orders {
+	A -> F;
+	B -> G;
+	E -> B;
+	E -> D;
+	C -> A;
+	F -> B;
+}
