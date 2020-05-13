@@ -1,0 +1,61 @@
+digraph {
+  compound=true;
+  node [ fontname="Handlee" ];
+  subgraph cluster_main {
+    label="Main";
+    file[label="PGN File" shape=tab];
+    subgraph cluster_pgn_parser {
+        label="PGN Parser";
+        style=filled
+        fillcolor=thistle1
+        pgn_to_moves[label="PGN To Moves" shape=rect style=filled fillcolor=magenta1];
+        pre_process_moves[label="Pre Process Moves" shape=rect style=filled fillcolor=orchid];
+        pre_process_move[label="Pre Process Move\nSplit into white\nand black move.\nStrip \'+\',\'x\' etc" shape=rect style=filled fillcolor=plum1];
+    }
+    traverse_moves[label="Traverse Moves" shape=rect]
+    is_piece_pawn_castle[label="Is Pawn?\nIs Other Piece?\nIs Castle?" shape=diamond];
+    subgraph cluster_pawn {
+        label="Pawn";
+        style=filled 
+        fillcolor=lightcyan
+        make_pawn_move[label="Determine type\nof pawn move" shape=rect style=filled fillcolor=deepskyblue2];
+        is_capture[label="Is capture" shape=rect style=filled fillcolor=cyan];
+        en_passant[label="En passant capture\nUpdate board\nand piece view" shape=rect style=filled fillcolor=paleturquoise2];
+        capture_pawn[label="Normal capture\nUpdate board\nand piece view" shape=rect style=filled fillcolor=paleturquoise2];
+        move_pawn[label="Normal move\nUpdate board\nand piece view" shape=rect style=filled fillcolor=cyan];
+        promotion_pawn[label="Pawn Promotion\nUpdate board\nand piece view" shape=rect style=filled fillcolor=cyan];
+    }
+    setup[label="Setup board view\nand piece view" shape=rect];
+    subgraph cluster_piece {
+        label="Piece";
+        style=filled;
+        fillcolor=darkseagreen1;
+        castle[label="Determine castling\nwhich side\nUpdate board\nand piece view" shape=rect style=filled fillcolor=springgreen2];
+        move_piece[label="Extract piece\nand square to" shape=rect style=filled fillcolor=springgreen2];
+        is_capture_piece[label="Is capture?" shape=diamond style=filled fillcolor=indianred1];
+        extract_captured_piece[label="Extract\ncaptured piece" shape=rect style=filled fillcolor=springgreen2];
+        get_from_square[label="Get from square\nby checking valid\nmoves and if\npiece can move\nto \'square to\'" shape=rect style=filled fillcolor=springgreen2];
+        update_board_piece_view[label="Update board\nand piece view" shape=rect style=filled fillcolor=springgreen2];
+    }
+}
+
+  file->pgn_to_moves
+  pgn_to_moves->pre_process_moves[constraint=false]
+  pre_process_moves->pre_process_move[constraint=false]
+  pre_process_move->pre_process_moves[constraint=false]
+  pre_process_moves ->traverse_moves
+  traverse_moves->is_piece_pawn_castle
+  is_piece_pawn_castle:w-> make_pawn_move:w
+  make_pawn_move:sw -> move_pawn;
+  make_pawn_move:s -> is_capture;
+  make_pawn_move:se -> promotion_pawn 
+  is_capture->capture_pawn;
+  is_capture->en_passant;
+  is_piece_pawn_castle:e->move_piece
+  is_piece_pawn_castle:ne->castle[constraint=false]
+  move_piece->is_capture_piece
+  is_capture_piece->extract_captured_piece[color=green]
+  extract_captured_piece->get_from_square
+  is_capture_piece->get_from_square[color=red]
+  get_from_square->update_board_piece_view
+}

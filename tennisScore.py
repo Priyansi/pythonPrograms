@@ -1,3 +1,5 @@
+import os
+
 POINTSDICT = {0: 'love', 1: 15, 2: 30, 3: 40, 4: '40+adv', 5: '40+adv+adv'}
 MIN_POINTS_REQ_TO_WIN = 4
 MIN_DIFF_REQ = 2
@@ -37,7 +39,7 @@ def updatePoints(points, games, sets, player1, player2):
     return points, games
 
 
-def tennis(s):
+def tennis_match(s):
     points = [0, 0]
     scores = [0, 0]
     games = [0, 0]
@@ -52,4 +54,9 @@ def tennis(s):
     return "Players : A B"+"\nSets : "+str(sets)+"\nGames : " + str(games)+"\nPoints : "+str(scores)
 
 
-print(tennis('ABABABABAAA'))
+def tennis_match_graph():
+    os.system("dot -T png -o tennisGameGraph.png tennisGameGraph.dot")
+
+
+print(tennis_match('ABABABABAAA'))
+tennis_match_graph()
